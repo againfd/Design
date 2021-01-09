@@ -30,9 +30,8 @@ public class Demo extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+
+			public static void run() {
 				try {
 					Demo frame = new Demo();
 					frame.setVisible(true);
@@ -40,8 +39,9 @@ public class Demo extends JFrame {
 					e.printStackTrace();
 				}
 			}
-//		});
-//	}
+			public static void main(String[] args) {
+				run();
+			}
 
 	/**
 	 * Create the frame.

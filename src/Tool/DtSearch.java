@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DataBase.ConnectionSql;
 import DataBase.Customer;
+import java.awt.Toolkit;
 
 public class DtSearch extends JFrame {
 	
@@ -62,9 +63,7 @@ public class DtSearch extends JFrame {
 			br = new BufferedReader(new FileReader(file));
 			String datas=br.readLine();
 		ConnectionSql cts = new ConnectionSql();
-		if(bigList==null) {
 			bigList=Customer.getSelectAll("select * from cs where tele='"+datas+"'");// 调用查询数据库的方法，返回所有的行
-		}
 		try {
 			Connection conn = cts.getConnection();
 			Statement stmt=conn.createStatement();
@@ -83,6 +82,7 @@ public class DtSearch extends JFrame {
 	}
 	
 	public DtSearch() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DtSearch.class.getResource("/images/o.jpg")));
 		setTitle("查询结果");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

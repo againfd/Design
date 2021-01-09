@@ -7,17 +7,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DataBase.ConnectionSql;
 import Tool.Bhcz;
+import Tool.DbDelete;
 import Tool.Xmcz;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Czdd extends JFrame {
 
@@ -28,9 +36,8 @@ public class Czdd extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+
+			public static void run() {
 				try {
 					Czdd frame = new Czdd();
 					frame.setVisible(true);
@@ -38,13 +45,17 @@ public class Czdd extends JFrame {
 					e.printStackTrace();
 				}
 			}
-//		});
-//	}
+			
+			public static void main(String[] args) {
+				run();
+			}
 
 	/**
 	 * Create the frame.
 	 */
 	public Czdd() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Czdd.class.getResource("/images/o.jpg")));
+		setTitle("查找方式");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -78,8 +89,29 @@ public class Czdd extends JFrame {
 				}catch(Exception k) {
 					k.printStackTrace();
 				}
-				Xmcz dbs=new Xmcz();
-				dbs.run();
+				String x=null;
+				String sql="select xm from goods";
+				ConnectionSql cs=new ConnectionSql();
+		        Connection conn=cs.getConnection();
+		        String sql1=String.format("Select COUNT(*) from goods where xm='%s'",xm);
+		        try {
+					PreparedStatement pstmt=conn.prepareStatement(sql1);
+					ResultSet rs=pstmt.executeQuery();
+					while(rs.next()) {
+						x=rs.getString(1);
+					}
+					if(!x.equals("0")) {
+						Xmcz dbs=new Xmcz();
+						dbs.run();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "该客户不存在！");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnNewButton.setBounds(299, 52, 93, 23);
@@ -111,8 +143,29 @@ public class Czdd extends JFrame {
 				}catch(Exception k) {
 					k.printStackTrace();
 				}
-				Bhcz dbs=new Bhcz();
-				dbs.run();
+				String x=null;
+				String sql="select bh from goods";
+				ConnectionSql cs=new ConnectionSql();
+		        Connection conn=cs.getConnection();
+		        String sql1=String.format("Select COUNT(*) from goods where bh='%s'",bh);
+		        try {
+					PreparedStatement pstmt=conn.prepareStatement(sql1);
+					ResultSet rs=pstmt.executeQuery();
+					while(rs.next()) {
+						x=rs.getString(1);
+					}
+					if(!x.equals("0")) {
+						Bhcz dbs=new Bhcz();
+						dbs.run();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "该客户不存在！");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnNewButton_1.setBounds(303, 163, 93, 23);

@@ -32,8 +32,5 @@ public class DbSelect {
 		}
 		return null;
 	}
-//	public static void main(String[] args) {
-//		DbSelect a = new DbSelect();
-//		System.out.println(a.select("2019401943").trim());
-//	}
+
 }

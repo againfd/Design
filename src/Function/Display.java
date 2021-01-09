@@ -5,15 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,7 +28,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import General.CRM;
+import Tool.ExcelExporter;
 import Tool.PageController;
+import java.awt.Toolkit;
 /**
  * 
  * 显示客户信息
@@ -60,6 +67,7 @@ public class Display extends JFrame {
 		 * 定义构造方法创建窗体及组件.
 		 */
 		public Display() {
+			setIconImage(Toolkit.getDefaultToolkit().getImage(Display.class.getResource("/images/o.jpg")));
 			setTitle("显示结果");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);// 设置窗体关闭按钮
 			setBounds(100, 100, 450, 403);// 设置窗体位置与大小
@@ -79,10 +87,8 @@ public class Display extends JFrame {
 			Vector<Vector> stuInfo = new PageController().getPaegData();//获取第一页的数据
 
 //			使用静态数据创建DefaultTableModel数据模型
-              model = new DefaultTableModel(stuInfo, titles) ;
+              model = new DefaultTableModel(stuInfo, titles);
 			table = new JTable(model);// 使用DefaultTableModel数据模型实例化表格
-			sorter = new TableRowSorter<DefaultTableModel>(model);//设置排序器
-			table.setAutoCreateRowSorter(true);;//设置表格自动排序
 
 			scrollPane.setViewportView(table);// 设置使用滚动面板显示表格，如果不使用滚动面板显示，则表格的列标题无法显示
 			
@@ -114,7 +120,7 @@ public class Display extends JFrame {
 			lblMsg.setBounds(254, 307, 87, 15);
 			contentPane.add(lblMsg);
 			
-			JComboBox comboBox = new JComboBox(new Integer[] {3,5,10,15,20,1000});
+			JComboBox comboBox = new JComboBox(new Integer[] {3,5,10,15,20,1000,10000});
 			comboBox.addItemListener(new ItemListener() {//页数下拉框选择改变事件
 				public void itemStateChanged(ItemEvent e) {
 					int pageSize=Integer.valueOf(comboBox.getSelectedItem().toString());//获取下拉框所选的值
@@ -127,7 +133,28 @@ public class Display extends JFrame {
 			comboBox.setSelectedIndex(1);//设置下拉框默认值
 			comboBox.setBounds(318, 303, 55, 23);
 			contentPane.add(comboBox);
+			
+			JButton btnNewButton = new JButton("导出");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ExcelExporter ex=new ExcelExporter();
+					File file=new File("d:/客户信息.xls");
+					if(!file.exists()) {
+						try {
+							file.createNewFile();
+						}catch(IOException k) {
+							k.printStackTrace();
+						}
+					}
+					try {
+						ex.exportTable(table, file);
+					}catch(IOException l) {
+						l.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "导出成功！");
+				}
+			});
+			btnNewButton.setBounds(341, 331, 93, 23);
+			contentPane.add(btnNewButton);
 		}
-
-
 }

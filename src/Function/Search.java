@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +19,7 @@ import DataBase.ConnectionSql;
 import DataBase.Customer;
 import Tool.DbSearch;
 import Tool.DtSearch;
+import Tool.Judge;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +31,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
 import java.util.Vector;
+import java.awt.Toolkit;
 /**
  * 
  * 查找客户信息
@@ -52,9 +58,7 @@ public class Search extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public static void run() {
 				try {
 					Search frame = new Search();
 					frame.setVisible(true);
@@ -62,13 +66,15 @@ public class Search extends JFrame {
 					e.printStackTrace();
 				}
 			}
-//		});
-//	}
+			public static void main(String[] args) {
+				run();
+			}
 
 	/**
 	 * Create the frame.
 	 */
 	public Search() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Search.class.getResource("/images/o.jpg")));
 		setTitle("查询客户信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -104,9 +110,28 @@ public class Search extends JFrame {
 						}catch(Exception k) {
 							k.printStackTrace();
 						}
-						DbSearch dbs=new DbSearch();
-						dbs.run();
-							
+						String x=null;
+						String sql="select xm from cs";
+						ConnectionSql cs=new ConnectionSql();
+				        Connection conn=cs.getConnection();
+				        String sql1=String.format("Select COUNT(*) from cs where xm='%s'",key);
+				        try {
+							PreparedStatement pstmt=conn.prepareStatement(sql1);
+							ResultSet rs=pstmt.executeQuery();
+							while(rs.next()) {
+								x=rs.getString(1);
+							}
+							if(!x.equals("0")) {
+								DbSearch dbs=new DbSearch();
+								dbs.run();
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "该客户不存在！");
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				btnFind.setBounds(313, 75, 95, 25);
@@ -138,8 +163,28 @@ public class Search extends JFrame {
 						}catch(Exception k) {
 							k.printStackTrace();
 						}
-						DtSearch dts=new DtSearch();
-						dts.run();
+						String x=null;
+						String sql="select tele from cs";
+						ConnectionSql cs=new ConnectionSql();
+				        Connection conn=cs.getConnection();
+				        String sql1=String.format("Select COUNT(*) from cs where tele='%s'",key);
+				        try {
+							PreparedStatement pstmt=conn.prepareStatement(sql1);
+							ResultSet rs=pstmt.executeQuery();
+							while(rs.next()) {
+								x=rs.getString(1);
+							}
+							if(!x.equals("0")) {
+								DtSearch dbs=new DtSearch();
+								dbs.run();
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "该客户不存在！");
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				btnNewButton.setBounds(312, 181, 93, 23);

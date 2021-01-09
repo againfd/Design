@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Add extends JFrame {
 
@@ -51,6 +52,7 @@ public class Add extends JFrame {
 	 *生成可增加客户信息的图形界面
 	 */
 	public Add() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Add.class.getResource("/images/o.jpg")));
 		setTitle("增加客户信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 355);
@@ -69,7 +71,7 @@ public class Add extends JFrame {
 		txtXm.setColumns(10);
 		
 		JLabel lblXb = new JLabel("请输入客户性别：");
-		lblXb.setBounds(87, 35, 142, 15);
+		lblXb.setBounds(87, 38, 142, 15);
 		contentPane.add(lblXb);
 		
 		txtXb = new JTextField();
@@ -105,7 +107,7 @@ public class Add extends JFrame {
 		txtTel.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("请输入商品数量：");
-		lblNewLabel_1.setBounds(87, 148, 99, 15);
+		lblNewLabel_1.setBounds(87, 148, 125, 15);
 		contentPane.add(lblNewLabel_1);
 		
 		txtNum = new JTextField();
@@ -123,7 +125,7 @@ public class Add extends JFrame {
 		txtCje.setColumns(10);
 		
 		lblNewLabel = new JLabel("请输入商品编号：");
-		lblNewLabel.setBounds(85, 106, 101, 15);
+		lblNewLabel.setBounds(85, 106, 127, 15);
 		contentPane.add(lblNewLabel);
 		
 		txtBh = new JTextField();

@@ -7,14 +7,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DataBase.ConnectionSql;
 import Tool.DbDelete;
+import Tool.Modify;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Delete extends JFrame {
 
@@ -24,9 +31,8 @@ public class Delete extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+
+			public static void run() {
 				try {
 					Delete frame = new Delete();
 					frame.setVisible(true);
@@ -34,13 +40,16 @@ public class Delete extends JFrame {
 					e.printStackTrace();
 				}
 			}
-//		});
-//	}
+			public static void main(String[] args) {
+				run();
+			}
+
 
 	/**
 	 * 删除客户信息
 	 */
 	public Delete() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Delete.class.getResource("/images/o.jpg")));
 		setTitle("删除客户信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -62,9 +71,30 @@ public class Delete extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name=textField.getText();
-					DbDelete dele=new DbDelete();
-					dele.delete(name);
-					JOptionPane.showMessageDialog(null, "客户删除成功！");
+				String x=null;
+				String sql="select xm from cs";
+				ConnectionSql cs=new ConnectionSql();
+		        Connection conn=cs.getConnection();
+		        String sql1=String.format("Select COUNT(*) from cs where xm='%s'",name);
+		        try {
+					PreparedStatement pstmt=conn.prepareStatement(sql1);
+					ResultSet rs=pstmt.executeQuery();
+					while(rs.next()) {
+						x=rs.getString(1);
+					}
+					if(!x.equals("0")) {
+						DbDelete dele=new DbDelete();
+						dele.delete(name);
+						JOptionPane.showMessageDialog(null, "客户删除成功！");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "该客户不存在！");
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+					
 			}
 		});
 		btnNewButton.setBounds(271, 186, 93, 23);

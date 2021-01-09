@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DataBase.ConnectionSql;
 import DataBase.Goods;
+import java.awt.Toolkit;
 /**
  * 
  * 订单编号查找
@@ -69,9 +70,9 @@ public class Bhcz extends JFrame {
 			br = new BufferedReader(new FileReader(file));
 			String datas=br.readLine();
 		ConnectionSql cts = new ConnectionSql();
-		if(bigList==null) {
+		//if(bigList==null) {
 			bigList=Goods.getAll("select * from goods where bh='"+datas+"'");// 调用查询数据库的方法，返回所有的行
-		}
+		//}
 		try {
 			Connection conn = cts.getConnection();
 			Statement stmt=conn.createStatement();
@@ -90,6 +91,7 @@ public class Bhcz extends JFrame {
 	}
 	
 	public Bhcz() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Bhcz.class.getResource("/images/o.jpg")));
 		setTitle("查询结果");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

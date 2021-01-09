@@ -7,7 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
+import DataBase.ConnectionSql;
+import Tool.DbSearch;
 import Tool.Modify;
 
 import javax.swing.JLabel;
@@ -20,7 +21,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 /**
  * 
  * 修改客户信息
@@ -36,13 +42,16 @@ public class Update extends JFrame {
 	 */
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public static void run() {
 				try {
 					Update frame = new Update();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+			public static void main(String[] args) {
+				run();
 			}
 //		});
 //	}
@@ -51,6 +60,7 @@ public class Update extends JFrame {
 	 * Create the frame.
 	 */
 	public Update() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Update.class.getResource("/images/o.jpg")));
 		setTitle("修改客户信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -82,13 +92,28 @@ public class Update extends JFrame {
 				}catch(Exception k) {
 					k.printStackTrace();
 				}
-				//if(DbUpdate.update(name)) {
-					Modify mo=new Modify();
-					mo.run();
-				//}
-//				else {
-//					JOptionPane.showMessageDialog(null, "不存在该客户！");
-//				}
+					String x=null;
+					String sql="select xm from cs";
+					ConnectionSql cs=new ConnectionSql();
+			        Connection conn=cs.getConnection();
+			        String sql1=String.format("Select COUNT(*) from cs where xm='%s'",name);
+			        try {
+						PreparedStatement pstmt=conn.prepareStatement(sql1);
+						ResultSet rs=pstmt.executeQuery();
+						while(rs.next()) {
+							x=rs.getString(1);
+						}
+						if(!x.equals("0")) {
+							Modify mo=new Modify();
+							mo.run();
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "该客户不存在！");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 			}
 		});

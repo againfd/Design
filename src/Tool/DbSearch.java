@@ -29,6 +29,7 @@ import javax.swing.table.TableRowSorter;
 import DataBase.ConnectionSql;
 import DataBase.Customer;
 import DataBase.Goods;
+import java.awt.Toolkit;
 
 public class DbSearch extends JFrame {
 
@@ -37,7 +38,6 @@ public class DbSearch extends JFrame {
 	private JTable table;// 定义表格
 	private DefaultTableModel model;// 定义表格数据模型
 	private static Vector<Vector> bigList ; // 大集合，从外界获取数据
-	private static Vector<Vector> bigList1;
 	private int recordCount; // 总记录条数
 	private Vector<Vector> smallList = new Vector<Vector>(); // 小集合，返回给调用它的类
 
@@ -46,7 +46,7 @@ public class DbSearch extends JFrame {
 	 */
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+			public static void run() {
 				try {
 					DbSearch frame = new DbSearch();
 					frame.setVisible(true);
@@ -70,13 +70,11 @@ public class DbSearch extends JFrame {
 			br = new BufferedReader(new FileReader(file));
 			String datas=br.readLine();
 		ConnectionSql cts = new ConnectionSql();
-		if(bigList==null) {
 			bigList=Customer.getSelectAll("select * from cs where xm='"+datas+"'");// 调用查询数据库的方法，返回所有的行
-		}
 		try {
 			Connection conn = cts.getConnection();
 			Statement stmt=conn.createStatement();
-			
+
 		} catch (Exception l) {
 			l.printStackTrace();
 		}
@@ -91,6 +89,7 @@ public class DbSearch extends JFrame {
 	}
 	
 	public DbSearch() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DbSearch.class.getResource("/images/o.jpg")));
 		setTitle("查询结果");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

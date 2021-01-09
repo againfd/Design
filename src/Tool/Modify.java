@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Toolkit;
 /**
  * 
  * 修改客户信息
@@ -58,6 +59,7 @@ public class Modify extends JFrame {
 	 * Create the frame.
 	 */
 	public Modify() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Modify.class.getResource("/images/o.jpg")));
 		setTitle("修改客户信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

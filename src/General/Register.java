@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Toolkit;
 /**
  * 
  * ◊¢≤·π‹¿Ì‘±
@@ -60,6 +61,8 @@ public class Register extends JFrame {
 	 * Create the frame.
 	 */
 	public Register() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Register.class.getResource("/images/o.jpg")));
+		setTitle("◊¢≤·’À∫≈");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

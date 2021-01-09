@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import Tool.Page;
+import java.awt.Toolkit;
 /**
  * 
  * 显示订单信息
@@ -62,6 +63,8 @@ public class Detail extends JFrame {
 	 * Create the frame.
 	 */
 	public Detail() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Detail.class.getResource("/images/o.jpg")));
+		setTitle("显示订单信息");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 399);
 		contentPane = new JPanel();
@@ -82,8 +85,6 @@ public class Detail extends JFrame {
 //		使用静态数据创建DefaultTableModel数据模型
           model = new DefaultTableModel(stuInfo, titles) ;
 		table = new JTable(model);// 使用DefaultTableModel数据模型实例化表格
-		sorter = new TableRowSorter<DefaultTableModel>(model);//设置排序器
-		table.setAutoCreateRowSorter(true);;//设置表格自动排序
 
 		scrollPane.setViewportView(table);// 设置使用滚动面板显示表格，如果不使用滚动面板显示，则表格的列标题无法显示
 		

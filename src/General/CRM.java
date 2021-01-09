@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class CRM extends JFrame {
 
@@ -53,6 +54,7 @@ public class CRM extends JFrame {
 	 * Create the frame.
 	 */
 	public CRM() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CRM.class.getResource("/images/o.jpg")));
 		setTitle("客户关系管理系统");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

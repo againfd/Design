@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import DataBase.ConnectionSql;
 import DataBase.Customer;
 import DataBase.Goods;
+import java.awt.Toolkit;
 /**
  * 
  * 根据姓名查找订单
@@ -71,9 +72,9 @@ public class Xmcz extends JFrame {
 			br = new BufferedReader(new FileReader(file));
 			String datas=br.readLine();
 		ConnectionSql cts = new ConnectionSql();
-		if(bigList==null) {
+		//if(bigList==null) {
 			bigList=Goods.getAll("select * from goods where xm='"+datas+"'");// 调用查询数据库的方法，返回所有的行
-		}
+		//}
 		try {
 			Connection conn = cts.getConnection();
 			Statement stmt=conn.createStatement();
@@ -92,6 +93,7 @@ public class Xmcz extends JFrame {
 	}
 	
 	public Xmcz() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Xmcz.class.getResource("/images/o.jpg")));
 		setTitle("查询结果");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
